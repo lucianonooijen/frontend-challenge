@@ -4,7 +4,7 @@ The goal is to finish an app which visualizes event organizer ticket sales over 
 
 👤 **User story**
 
-	As user I want to be able to view how the sales of event organizers are doing so that I can determine whether they are improving over time or quite the opposite of that.
+	As user I want to be able to view how the sales of event organizers are doing so that I can determine how they are doing and whether or not they are living up to the expected ticket sales
 
 **Functional requirements**
 
