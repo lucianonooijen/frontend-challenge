@@ -4,11 +4,13 @@ The goal is to finish an app which visualizes event organizer ticket sales over 
 
 👤 **User story**
 
-	As user I want to be able to view how the sales of event organizers are doing so that I can determine how they are doing and whether or not they are living up to the expected ticket sales
+This user story came in as a feature request from the Stager management team
+
+	As user I want to see how the ticket sales of event organizers are doing so that determine whether or not they live up to our expectations
 
 **Functional requirements**
 
-- the page should be styled in the Stager identity (colors, fonts)
+- the page should be styled in the Stager identity (see *style_guide.pdf*)
 - the page should be responsive, i.e. work on desktop and mobile devices
 - it should be possible to filter on a specific period and/or organizer
 
