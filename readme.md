@@ -6,7 +6,7 @@ The goal is to finish an app which visualizes event organizer ticket sales over 
 
 This user story came in as a feature request from the Stager management team
 
-	As user I want to see how the ticket sales of event organizers are doing so that determine whether or not they live up to our expectations
+	As user I want to see how the ticket sales of event organizers are doing so that I can determine whether or not they live up to our expectations.
 
 **Functional requirements**
 
@@ -42,17 +42,21 @@ The app assumes the following dependencies to be pre installed
 The app exposes the following endpoints:
 
 
-- `HTTP GET /api/organizers`
+- `HTTP GET /api/organizers` 
 - `HTTP GET /api/sales/{organizerId}/{year}/{week}` *(params optional)*
+
+n.b. the expectedYearTotal value indicates an estimated constant covering all years.
+
 
 💯 **Bonus points can be earned with:**
 
 - watch, build and test scripts
 - performance optimizations
 - backend improvements
-- clean git commits
+- a pull request & clean git commits
 - awesome design
-- animations
+-  animations
+
 
 
 N.b.
