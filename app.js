@@ -1,22 +1,46 @@
-const express = require('express')
-const app = express()
-const _ = require('underscore-node')
-const csvUtils = require('./utils/csvUtils')
-const jsonUtils = require('./utils/jsonUtils')
-const path =  require('path')
-const organizerData = path.join(__dirname, 'data/organizers.min.json')
-const csvData = path.join(__dirname, 'data/sales.csv')
+/**
+ * Mean Starter Kit
+ * Created by Luciano Nooijen (github.com/lucianonooijen)
+ * Repo: https://github.com/lucianonooijen/MEAN-Starter-Kit
+ * 
+ * Before editing please run "npm install && bower install"
+ * and test the server with "npm run dev".
+ * 
+ * For documentation please check the README.md file or
+ * go to the Github repo mentioned above.
+ * 
+ * Created under MIT licence
+ * Feel free to remove this message.
+ */
 
-app.use(express.static('public'))
+const bodyParser = require('body-parser');
+const express = require('express');
+const mongoose = require('mongoose');
+const path = require('path');
 
-app.get('/api/organizers', function (req, res) {
-    jsonUtils.streamableFor(organizerData, res)
-})
+// Define route files
+const api = require('./server/routes/api');
 
-app.get('/api/sales/:organizer?/:year?/:week?', function (req, res) {
-    csvUtils.filterableCSVStream(csvData, req.params.organizer, req.params.year, req.params.week, res)
-})
 
-app.listen(3000, function () {
-    console.log('App listening on port 3000, have fun!')
+const app = express();
+const port = process.env.PORT || 3000;
+
+// Body parser middleware
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: false}));
+
+// Set static path
+app.use(express.static(path.join(__dirname, 'dist')));
+
+// Load routes location
+app.use('/api', api);
+
+// Send all other requests to the Angular app
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, './dist/index.html'));
+});
+
+// Runs the Express server
+app.listen(port, function () {
+    console.log(`App listening on port ${port}!`);
 })
