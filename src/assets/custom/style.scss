@@ -2,16 +2,8 @@
 @import "scss/variables";
 @import "scss/mixins";
 @import "scss/typography";
+@import "scss/general";
 @import "scss/buttons";
 @import "scss/layout";
 @import "scss/modules";
 @import "scss/animations";
-
-body {
-  background-color: #ddd;
-}
-
-.mainfooter {
-  padding: 20px 0;
-  background-color: #eee;
-}

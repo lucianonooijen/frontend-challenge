@@ -161,7 +161,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, "body {\n  background-color: #ddd; }\n\n.mainfooter {\n  padding: 20px 0;\n  background-color: #eee; }\n", ""]);
+exports.push([module.i, "body {\n  font-size: 16px;\n  font-family: Arial; }\n\nh1 {\n  font-size: 1.82em;\n  font-family: Helvetica, Arial, sans-serif; }\n\n.announcement-title {\n  font-family: Helvetica, Arial, sans-serif; }\n\nh2 {\n  font-size: 1.125em;\n  font-family: Helvetica, Arial, sans-serif; }\n\nh3 {\n  font-size: 0.8125em;\n  font-family: Helvetica, Arial, sans-serif; }\n\np, .content {\n  font-size: 0.8125em;\n  font-family: Arial, sans-serif; }\n\na {\n  font-family: Arial, sans-serif; }\n\na.button {\n  font-family: Arial, sans-serif;\n  font-weight: bold; }\n\nbody {\n  background-color: #f6f9fc; }\n\nnav {\n  background-color: #00f0ff;\n  padding-bottom: 0 !important; }\n  nav::before {\n    content: \"\";\n    width: 100%;\n    height: 150%;\n    background-color: #00f0ff;\n    -webkit-transform: skewY(-2deg) translateY(20px);\n            transform: skewY(-2deg) translateY(20px);\n    position: absolute;\n    left: 0;\n    bottom: 0;\n    z-index: -1; }\n\n.navbar-brand {\n  margin: auto; }\n\n.stager-branding {\n  max-width: 50vw;\n  height: 60px;\n  width: auto; }\n", ""]);
 
 // exports
 

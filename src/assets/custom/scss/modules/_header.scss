@@ -1,0 +1,26 @@
+nav {
+    background-color: $stager-blue;
+    padding-bottom: 0 !important;
+
+    &::before {
+        content: "";
+        width: 100%;
+        height: 150%;
+        background-color: $stager-blue;
+        transform: skewY(-2deg) translateY(20px);
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        z-index: -1;
+    }
+}
+
+.navbar-brand {
+    margin: auto;
+}
+
+.stager-branding {
+    max-width: 50vw;
+    height: 60px;
+    width: auto;
+}
