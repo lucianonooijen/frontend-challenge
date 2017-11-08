@@ -262,7 +262,7 @@ var HomeComponent = (function () {
 /***/ "../../../../../src/app/components/navbar/navbar.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<header>\n    <nav class=\"navbar navbar-expand-lg container-fullwidth col-xs-12 mb-5\">\n      <div class=\"container\">\n        <a class=\"navbar-brand\" href=\"#\" routerLink=\"/\">\n          <img src=\"assets/img/logo-header.svg\" alt=\"Stager logo\" class=\"stager-branding\">\n        </a>\n      </div>\n    </nav>\n  </header>"
+module.exports = "<header>\n    <nav class=\"navbar navbar-expand-lg container-fullwidth col-xs-12 mb-5\">\n      <div class=\"container\">\n        \n        <a class=\"navbar-brand\" href=\"#\" routerLink=\"/\">\n          <img src=\"assets/img/logo-header.svg\" alt=\"Stager logo\" class=\"stager-branding\">\n        </a>\n\n        <ul class=\"navbar-nav\">\n          <li class=\"nav-item\">\n            <a class=\"nav-link\" href=\"#\" routerLink=\"/\" routerLinkActive=\"active\">Home</a>\n          </li>\n          <li class=\"nav-item\">\n            <a class=\"nav-link\" href=\"#\" routerLink=\"/organizers\" routerLinkActive=\"active\">Organizers</a>\n          </li>\n          <li class=\"nav-item\">\n            <a class=\"nav-link\" href=\"#\" routerLink=\"/sales\" routerLinkActive=\"active\">Sales</a>\n          </li>\n        </ul>\n\n      </div>\n    </nav>\n  </header>"
 
 /***/ }),
 

@@ -55,7 +55,7 @@ n.b. the expectedYearTotal value indicates an estimated constant covering all ye
 - backend improvements
 - a pull request & clean git commits
 - awesome design
--  animations
+- animations
 
 
 
