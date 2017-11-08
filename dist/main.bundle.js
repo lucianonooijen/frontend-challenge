@@ -323,7 +323,7 @@ var NavbarComponent = (function () {
 /***/ "../../../../../src/app/components/organizers/organizers.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<h1 class=\"text-center mb-5\">Organizers overview</h1>\n\n<div class=\"row\">\n  <div *ngFor=\"let organizer of organizers\" class=\"col-lg-4 col-md-6 mb-3\">\n    <div class=\"card\">\n      <div class=\"card-body\">\n        <h4 class=\"card-title organizer-name\">{{ organizer.name }}</h4>\n      </div>\n      <ul class=\"list-group list-group-flush\">\n        <li class=\"list-group-item\">Organizer id: {{ organizer.id }}</li>\n        <li class=\"list-group-item\">Expected year total: {{ organizer.expectedYearTotal }}</li>\n      </ul>\n    </div>\n  </div>\n</div>"
+module.exports = "<h1 class=\"text-center mb-5\">Organizers overview</h1>\n\n<div class=\"row\">\n  <div *ngFor=\"let organizer of organizers\" class=\"col-lg-4 col-md-6 mb-3 animated fadeIn\">\n    <div class=\"card\">\n      <div class=\"card-body\">\n        <h4 class=\"card-title organizer-name\">{{ organizer.name }}</h4>\n      </div>\n      <ul class=\"list-group list-group-flush\">\n        <li class=\"list-group-item\">Organizer id: {{ organizer.id }}</li>\n        <li class=\"list-group-item\">Expected year total: {{ organizer.expectedYearTotal }}</li>\n      </ul>\n    </div>\n  </div>\n</div>"
 
 /***/ }),
 
