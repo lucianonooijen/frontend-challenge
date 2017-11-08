@@ -201,7 +201,7 @@ var FooterComponent = (function () {
 /***/ "../../../../../src/app/components/home/home.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<h1 class=\"text-center\">\n  Welcome to the Home component!\n</h1>\n\n<div class=\"text-center\">\n  <a href=\"#\" routerLink=\"organizers\" class=\"button\">Organizers</a>\n</div>"
+module.exports = "<h1 class=\"text-center\">\n  Welcome to the Stager Ticket Sales Visualizer\n</h1>\n\n<div class=\"row mt-5 mb-4\">\n  <div class=\"col-mg-6 m-auto\">\n    <div class=\"card text-center\">\n        <div class=\"card-body\">\n          <h4 class=\"card-title\">Statistics</h4>\n          <p class=\"card-text\">Below you can see some basic total statistics. But besides that there is nothing much to see here...</p>\n        </div>\n        <ul class=\"list-group list-group-flush\">\n            <li class=\"list-group-item\">Total sales: {{ salesTotal }}</li>\n            <li class=\"list-group-item\">Total expected ticket sales: {{ totalTicketsExpected }}</li>\n            <li class=\"list-group-item\">Percentage sold: {{ salesTotal/totalTicketsExpected }}</li>\n        </ul>\n      </div>\n  </div>\n</div>\n\n<p class=\"text-center\">\n  Like I said, there is nothing much to see here. To see some actual stuff, go to <a href=\"#\" routerLink=\"/organizers\">Organizers</a> or <a href=\"#\" routerLink=\"/sales\">Sales</a>.\n</p>"
 
 /***/ }),
 
@@ -229,6 +229,7 @@ module.exports = module.exports.toString();
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return HomeComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_data_service__ = __webpack_require__("../../../../../src/app/services/data.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -239,8 +240,28 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
+
 var HomeComponent = (function () {
-    function HomeComponent() {
+    function HomeComponent(dataService) {
+        var _this = this;
+        this.dataService = dataService;
+        this.salesTotal = 0;
+        this.totalTicketsExpected = 0;
+        // Gets sales from data service
+        this.dataService.getSales().subscribe(function (sales) {
+            _this.sales = sales;
+            // Calculate sales total
+            for (var i = 0; i < _this.sales.length; i++) {
+                _this.salesTotal += _this.sales[i].tickets;
+            }
+        });
+        // Calculate total expected ticket total
+        this.dataService.getOrganizers().subscribe(function (_organizers) {
+            var organizers = _organizers;
+            for (var i = 0; i < organizers.length; i++) {
+                _this.totalTicketsExpected += organizers[i].expectedYearTotal;
+            }
+        });
     }
     HomeComponent.prototype.ngOnInit = function () {
     };
@@ -250,7 +271,7 @@ var HomeComponent = (function () {
             template: __webpack_require__("../../../../../src/app/components/home/home.component.html"),
             styles: [__webpack_require__("../../../../../src/app/components/home/home.component.scss")]
         }),
-        __metadata("design:paramtypes", [])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__services_data_service__["a" /* DataService */]])
     ], HomeComponent);
     return HomeComponent;
 }());
@@ -417,6 +438,10 @@ var DataService = (function () {
     }
     DataService.prototype.getOrganizers = function () {
         return this.http.get('/api/organizers')
+            .map(function (res) { return res.json(); });
+    };
+    DataService.prototype.getSales = function () {
+        return this.http.get('/api/sales')
             .map(function (res) { return res.json(); });
     };
     DataService = __decorate([

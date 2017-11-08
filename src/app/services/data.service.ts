@@ -13,5 +13,10 @@ export class DataService {
     return this.http.get('/api/organizers')
       .map(res => res.json());
   }
+
+  getSales() {
+    return this.http.get('/api/sales')
+      .map(res => res.json());
+  }
   
 }

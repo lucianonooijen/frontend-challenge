@@ -1,7 +1,23 @@
 <h1 class="text-center">
-  Welcome to the Home component!
+  Welcome to the Stager Ticket Sales Visualizer
 </h1>
 
-<div class="text-center">
-  <a href="#" routerLink="organizers" class="button">Organizers</a>
+<div class="row mt-5 mb-4">
+  <div class="col-mg-6 m-auto">
+    <div class="card text-center">
+        <div class="card-body">
+          <h4 class="card-title">Statistics</h4>
+          <p class="card-text">Below you can see some basic total statistics. But besides that there is nothing much to see here...</p>
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">Total sales: {{ salesTotal }}</li>
+            <li class="list-group-item">Total expected ticket sales: {{ totalTicketsExpected }}</li>
+            <li class="list-group-item">Percentage sold: {{ salesTotal/totalTicketsExpected }}</li>
+        </ul>
+      </div>
+  </div>
 </div>
+
+<p class="text-center">
+  Like I said, there is nothing much to see here. To see some actual stuff, go to <a href="#" routerLink="/organizers">Organizers</a> or <a href="#" routerLink="/sales">Sales</a>.
+</p>
