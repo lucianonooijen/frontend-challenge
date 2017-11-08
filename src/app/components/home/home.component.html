@@ -12,7 +12,10 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">Total sales: {{ salesTotal }}</li>
             <li class="list-group-item">Total expected ticket sales: {{ totalTicketsExpected }}</li>
-            <li class="list-group-item">Percentage sold: {{ salesTotal/totalTicketsExpected }}</li>
+            <li class="list-group-item">
+              <div *ngIf="salesTotal > totalTicketsExpected"><b>Total needed sales reached</b></div>
+              <div *ngIf="!salesTotal > totalTicketsExpected"><b>Total needed sales reached</b></div>
+            </li>
         </ul>
       </div>
   </div>
