@@ -1,6 +1,6 @@
-<div class="alert alert-danger" *ngFor="let inputError of inputErrors">{{ inputError }}</div>
+<div class="alert alert-danger animated fadeIn" *ngFor="let inputError of inputErrors">{{ inputError }}</div>
 
-<div class="row">
+<div class="row animated fadeIn">
     <div class="col-md-6">
         <h1 class="mb-3 text-center">Search event sales</h1>
 
@@ -44,10 +44,10 @@
 </div>
 <br /> <br />
 
-<h1 class="text-center mb-5">Events</h1>
-<div class="row">
+<h1 *ngIf="sortedSales" class="text-center mb-5 animated fadeIn">Events</h1>
+<div class="row animated fadeIn">
     <div *ngFor="let sortedSale of sortedSales" class="col-md-4 mb-3">
-        <div class="card">
+        <div class="card animated fadeIn">
             <div class="card-body">
                 <h4 class="card-title">Organization ID: {{ sortedSale.organization }}</h4>
                 <div class="card-text">Year: {{ sortedSale.year }}</div>
