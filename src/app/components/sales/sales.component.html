@@ -1,29 +1,51 @@
-<select #selectedOrganizer>
-    <option value="">Any</option>
-  <option *ngFor="let organizer of organizers" [value]="organizer.id">{{ organizer.name }}</option>
-</select>
-<select #selectedYear>
-    <option value="">Any</option>
-    <option value="2013">2013</option>
-    <option value="2014">2014</option>
-    <option value="2015">2015</option>
-    <option value="2016">2016</option>
-    <option value="2017">2017</option>
-</select>
-<select #selectedWeek>
-    <option value="">Any</option>
-    <option *ngFor="let week of weeks; let index = index" [value]="index">Week {{ index }}</option>
-</select>
-<button (click)="sortSales(selectedOrganizer.value, selectedYear.value, selectedWeek.value)">Submit</button>
+<div class="alert alert-danger" *ngFor="let inputError of inputErrors">{{ inputError }}</div>
 
+<div class="row">
+    <div class="col-md-6">
+        
+        <div class="form-group">
+            <label for="organizers">Select organizer:</label>
+            <select class="form-control" id="organizers" #selectedOrganizer>
+                <option value="">Any</option>
+              <option *ngFor="let organizer of organizers" [value]="organizer.id">{{ organizer.name }}</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label for="year">Select year:</label>
+            <select class="form-control" id="year" #selectedYear>
+                <option value="">Any</option>
+                <option value="2013">2013</option>
+                <option value="2014">2014</option>
+                <option value="2015">2015</option>
+                <option value="2016">2016</option>
+                <option value="2017">2017</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label for="week">Select week:</label>
+            <select class="form-control" id="week" #selectedWeek>
+                <option value="">Any</option>
+                <option *ngFor="let week of weeks; let index = index" [value]="index">Week {{ index }}</option>
+            </select>
+        </div>
+ 
+        <button class = "btn btn-stager"(click)="sortSales(selectedOrganizer.value, selectedYear.value, selectedWeek.value)">Show event sales</button>
+    </div>
+</div>
+<br /> <br />
+
+<h1 class="text-center mb-5">Events</h1>
 <div class="row">
     <div *ngFor="let sortedSale of sortedSales" class="col-md-4 mb-3">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">Organization: {{ sortedSale.organisation }}</h4>
-
+                <h4 class="card-title">Organization ID: {{ sortedSale.organization }}</h4>
+                <div class="card-text">Year: {{ sortedSale.year }}</div>
+                <div class="card-text">Week: {{ sortedSale.week }}</div>
+                <div class="card-text"><b>Tickets: {{ sortedSale.tickets }}</b></div>
             </div>
         </div>
     </div>
 </div>
-{{ sortedSales }}

@@ -13,6 +13,7 @@ export class SalesComponent implements OnInit {
   sales:any;
   sortedSales:any;
   weeks:number[] = new Array(52);
+  inputErrors:string[];
 
   constructor(public dataService:DataService) { 
     this.dataService.getOrganizers().subscribe(organizers => {
@@ -30,10 +31,23 @@ export class SalesComponent implements OnInit {
 
     console.log(organizer, year, week)
 
-    this.dataService.getSalesSorted(organizer, year, week).subscribe(sortedSales => {
-      this.sortedSales = sortedSales;
-      console.log(this.sortedSales);
-    });
+    if (((year || week) && !organizer) || (week && !year)) {
+      this.inputErrors = [];
+      if ((year || week) && !organizer) {
+        this.inputErrors.push("You can only select a year and week if you also select an organizer");
+      }
+      if (week && !year) {
+        this.inputErrors.push("You can only select a week if you also select a year");
+      }
+    } else {
+      this.inputErrors = [];
+
+      this.dataService.getSalesSorted(organizer, year, week).subscribe(sortedSales => {
+        this.sortedSales = sortedSales;
+        console.log(this.sortedSales);
+      });
+
+    }
   }
 
   ngOnInit() {

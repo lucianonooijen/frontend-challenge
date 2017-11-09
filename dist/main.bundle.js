@@ -419,7 +419,7 @@ var OrganizersComponent = (function () {
 /***/ "../../../../../src/app/components/sales/sales.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<select #selectedOrganizer>\n    <option value=\"\">Any</option>\n  <option *ngFor=\"let organizer of organizers\" [value]=\"organizer.id\">{{ organizer.name }}</option>\n</select>\n<select #selectedYear>\n    <option value=\"\">Any</option>\n    <option value=\"2013\">2013</option>\n    <option value=\"2014\">2014</option>\n    <option value=\"2015\">2015</option>\n    <option value=\"2016\">2016</option>\n    <option value=\"2017\">2017</option>\n</select>\n<select #selectedWeek>\n    <option value=\"\">Any</option>\n    <option *ngFor=\"let week of weeks; let index = index\" [value]=\"index\">Week {{ index }}</option>\n</select>\n<button (click)=\"sortSales(selectedOrganizer.value, selectedYear.value, selectedWeek.value)\">Submit</button>\n\n<div class=\"row\">\n    <div *ngFor=\"let sortedSale of sortedSales\" class=\"col-md-4 mb-3\">\n        <div class=\"card\">\n            <div class=\"card-body\">\n                <h4 class=\"card-title\">Organization: {{ sortedSale.organisation }}</h4>\n\n            </div>\n        </div>\n    </div>\n</div>\n{{ sortedSales }}"
+module.exports = "<div class=\"alert alert-danger\" *ngFor=\"let inputError of inputErrors\">{{ inputError }}</div>\n\n<div class=\"row\">\n    <div class=\"col-md-6\">\n        \n        <div class=\"form-group\">\n            <label for=\"organizers\">Select organizer:</label>\n            <select class=\"form-control\" id=\"organizers\" #selectedOrganizer>\n                <option value=\"\">Any</option>\n              <option *ngFor=\"let organizer of organizers\" [value]=\"organizer.id\">{{ organizer.name }}</option>\n            </select>\n        </div>\n        \n        <div class=\"form-group\">\n            <label for=\"year\">Select year:</label>\n            <select class=\"form-control\" id=\"year\" #selectedYear>\n                <option value=\"\">Any</option>\n                <option value=\"2013\">2013</option>\n                <option value=\"2014\">2014</option>\n                <option value=\"2015\">2015</option>\n                <option value=\"2016\">2016</option>\n                <option value=\"2017\">2017</option>\n            </select>\n        </div>\n        \n        <div class=\"form-group\">\n            <label for=\"week\">Select week:</label>\n            <select class=\"form-control\" id=\"week\" #selectedWeek>\n                <option value=\"\">Any</option>\n                <option *ngFor=\"let week of weeks; let index = index\" [value]=\"index\">Week {{ index }}</option>\n            </select>\n        </div>\n \n        <button class = \"btn btn-stager\"(click)=\"sortSales(selectedOrganizer.value, selectedYear.value, selectedWeek.value)\">Show event sales</button>\n    </div>\n</div>\n<br /> <br />\n\n<h1 class=\"text-center mb-5\">Events</h1>\n<div class=\"row\">\n    <div *ngFor=\"let sortedSale of sortedSales\" class=\"col-md-4 mb-3\">\n        <div class=\"card\">\n            <div class=\"card-body\">\n                <h4 class=\"card-title\">Organization ID: {{ sortedSale.organization }}</h4>\n                <div class=\"card-text\">Year: {{ sortedSale.year }}</div>\n                <div class=\"card-text\">Week: {{ sortedSale.week }}</div>\n                <div class=\"card-text\"><b>Tickets: {{ sortedSale.tickets }}</b></div>\n            </div>\n        </div>\n    </div>\n</div>"
 
 /***/ }),
 
@@ -477,10 +477,22 @@ var SalesComponent = (function () {
     SalesComponent.prototype.sortSales = function (organizer, year, week) {
         var _this = this;
         console.log(organizer, year, week);
-        this.dataService.getSalesSorted(organizer, year, week).subscribe(function (sortedSales) {
-            _this.sortedSales = sortedSales;
-            console.log(_this.sortedSales);
-        });
+        if (((year || week) && !organizer) || (week && !year)) {
+            this.inputErrors = [];
+            if ((year || week) && !organizer) {
+                this.inputErrors.push("You can only select a year and week if you also select an organizer");
+            }
+            if (week && !year) {
+                this.inputErrors.push("You can only select a week if you also select a year");
+            }
+        }
+        else {
+            this.inputErrors = [];
+            this.dataService.getSalesSorted(organizer, year, week).subscribe(function (sortedSales) {
+                _this.sortedSales = sortedSales;
+                console.log(_this.sortedSales);
+            });
+        }
     };
     SalesComponent.prototype.ngOnInit = function () {
     };
