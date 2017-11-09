@@ -14,6 +14,7 @@ export class SalesComponent implements OnInit {
   sortedSales:any;
   weeks:number[] = new Array(52);
   inputErrors:string[];
+  statistics:{};
 
   constructor(public dataService:DataService) { 
     this.dataService.getOrganizers().subscribe(organizers => {
@@ -33,6 +34,7 @@ export class SalesComponent implements OnInit {
 
     if (((year || week) && !organizer) || (week && !year)) {
       this.inputErrors = [];
+      this.statistics = {};
       if ((year || week) && !organizer) {
         this.inputErrors.push("You can only select a year and week if you also select an organizer");
       }
@@ -41,6 +43,7 @@ export class SalesComponent implements OnInit {
       }
     } else {
       this.inputErrors = [];
+      this.statistics = {"test": "test"};
 
       this.dataService.getSalesSorted(organizer, year, week).subscribe(sortedSales => {
         this.sortedSales = sortedSales;
