@@ -11,6 +11,8 @@ import { DataService } from '../../services/data.service';
 export class SalesComponent implements OnInit {
   organizers:any;
   sales:any;
+  sortedSales:any;
+  weeks:number[] = new Array(52);
 
   constructor(public dataService:DataService) { 
     this.dataService.getOrganizers().subscribe(organizers => {
@@ -24,8 +26,14 @@ export class SalesComponent implements OnInit {
     })
   }
 
-  sortSales(organizer) {
-    console.log(organizer);
+  sortSales(organizer?:number, year?:number, week?:number) {
+
+    console.log(organizer, year, week)
+
+    this.dataService.getSalesSorted(organizer, year, week).subscribe(sortedSales => {
+      this.sortedSales = sortedSales;
+      console.log(this.sortedSales);
+    });
   }
 
   ngOnInit() {

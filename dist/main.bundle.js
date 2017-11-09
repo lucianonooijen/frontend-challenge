@@ -205,7 +205,7 @@ var FooterComponent = (function () {
 /***/ "../../../../../src/app/components/home/home.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<h1 class=\"text-center\">\n  Welcome to the Stager Ticket Sales Visualizer\n</h1>\n\n<div class=\"row mt-5 mb-4\">\n  <div class=\"col-mg-6 m-auto\">\n    <div class=\"card text-center\">\n        <div class=\"card-body\">\n          <h4 class=\"card-title\">Statistics</h4>\n          <p class=\"card-text\">Below you can see some basic total statistics. But besides that there is nothing much to see here...</p>\n        </div>\n        <ul class=\"list-group list-group-flush\">\n            <li class=\"list-group-item\">Total sales: {{ salesTotal }}</li>\n            <li class=\"list-group-item\">Total expected ticket sales: {{ totalTicketsExpected }}</li>\n            <li class=\"list-group-item\">\n              <div *ngIf=\"salesTotal > totalTicketsExpected\"><b>Total needed sales reached</b></div>\n              <div *ngIf=\"!salesTotal > totalTicketsExpected\"><b>Total needed sales reached</b></div>\n            </li>\n        </ul>\n      </div>\n  </div>\n</div>\n\n<p class=\"text-center\">\n  Like I said, there is nothing much to see here. To see some actual stuff, go to <a href=\"#\" routerLink=\"/organizers\">Organizers</a> or <a href=\"#\" routerLink=\"/sales\">Sales</a>.\n</p>"
+module.exports = "<h1 class=\"text-center animated fadeIn\">\n  Welcome to the Stager Ticket Sales Visualizer\n</h1>\n\n<div class=\"row mt-5 mb-4 animated fadeIn\">\n  <div class=\"col-mg-6 m-auto\">\n    <div class=\"card text-center\">\n        <div class=\"card-body\">\n          <h4 class=\"card-title\">Statistics</h4>\n          <p class=\"card-text\">Below you can see some basic total statistics. But besides that there is nothing much to see here...</p>\n        </div>\n        <ul class=\"list-group list-group-flush\">\n            <li class=\"list-group-item\">Total sales: {{ salesTotal }}</li>\n            <li class=\"list-group-item\">Total expected ticket sales: {{ totalTicketsExpected }}</li>\n            <li class=\"list-group-item\">\n              <div *ngIf=\"salesTotal > totalTicketsExpected\"><b>Total needed sales reached</b></div>\n              <div *ngIf=\"!salesTotal > totalTicketsExpected\"><b>Total needed sales reached</b></div>\n            </li>\n        </ul>\n      </div>\n  </div>\n</div>\n\n<p class=\"text-center animtated fadeIn\">\n  Like I said, there is nothing much to see here. To see some actual stuff, go to <a href=\"#\" routerLink=\"/organizers\">Organizers</a> or <a href=\"#\" routerLink=\"/sales\">Sales</a>.\n</p>"
 
 /***/ }),
 
@@ -419,7 +419,7 @@ var OrganizersComponent = (function () {
 /***/ "../../../../../src/app/components/sales/sales.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<select #selectedOrganizer>\n  <option *ngFor=\"let organizer of organizers\" [value]=\"organizer.id\">{{ organizer.name }}</option>\n</select>\n<button (click)=\"sortSales(selectedOrganizer.value)\">Submit</button>"
+module.exports = "<select #selectedOrganizer>\n    <option value=\"\">Any</option>\n  <option *ngFor=\"let organizer of organizers\" [value]=\"organizer.id\">{{ organizer.name }}</option>\n</select>\n<select #selectedYear>\n    <option value=\"\">Any</option>\n    <option value=\"2013\">2013</option>\n    <option value=\"2014\">2014</option>\n    <option value=\"2015\">2015</option>\n    <option value=\"2016\">2016</option>\n    <option value=\"2017\">2017</option>\n</select>\n<select #selectedWeek>\n    <option value=\"\">Any</option>\n    <option *ngFor=\"let week of weeks; let index = index\" [value]=\"index\">Week {{ index }}</option>\n</select>\n<button (click)=\"sortSales(selectedOrganizer.value, selectedYear.value, selectedWeek.value)\">Submit</button>\n\n{{ sortedSales }}"
 
 /***/ }),
 
@@ -464,6 +464,7 @@ var SalesComponent = (function () {
     function SalesComponent(dataService) {
         var _this = this;
         this.dataService = dataService;
+        this.weeks = new Array(52);
         this.dataService.getOrganizers().subscribe(function (organizers) {
             _this.organizers = organizers;
             //console.log(this.organizers);
@@ -473,8 +474,13 @@ var SalesComponent = (function () {
             //console.log(this.sales);
         });
     }
-    SalesComponent.prototype.sortSales = function (organizer) {
-        console.log(organizer);
+    SalesComponent.prototype.sortSales = function (organizer, year, week) {
+        var _this = this;
+        console.log(organizer, year, week);
+        this.dataService.getSalesSorted(organizer, year, week).subscribe(function (sortedSales) {
+            _this.sortedSales = sortedSales;
+            console.log(_this.sortedSales);
+        });
     };
     SalesComponent.prototype.ngOnInit = function () {
     };
@@ -524,6 +530,20 @@ var DataService = (function () {
     };
     DataService.prototype.getSales = function () {
         return this.http.get('/api/sales')
+            .map(function (res) { return res.json(); });
+    };
+    DataService.prototype.getSalesSorted = function (id, year, week) {
+        var parameters = "";
+        if (id) {
+            parameters += id + "/";
+        }
+        if (year) {
+            parameters += year + "/";
+        }
+        if (week) {
+            parameters += "" + week;
+        }
+        return this.http.get("/api/sales/" + parameters)
             .map(function (res) { return res.json(); });
     };
     DataService = __decorate([
