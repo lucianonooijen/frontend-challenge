@@ -16,4 +16,14 @@
 </select>
 <button (click)="sortSales(selectedOrganizer.value, selectedYear.value, selectedWeek.value)">Submit</button>
 
+<div class="row">
+    <div *ngFor="let sortedSale of sortedSales" class="col-md-4 mb-3">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Organization: {{ sortedSale.organisation }}</h4>
+
+            </div>
+        </div>
+    </div>
+</div>
 {{ sortedSales }}

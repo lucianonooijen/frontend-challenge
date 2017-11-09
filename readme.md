@@ -1,3 +1,9 @@
+[![Build Status](https://travis-ci.org/lucianonooijen/frontend-challenge.svg?branch=master)](https://travis-ci.org/lucianonooijen/frontend-challenge) 
+[![Dependency Status](https://david-dm.org/lucianonooijen/frontend-challenge.svg)](https://david-dm.org/lucianonooijen/frontend-challenge)
+[![devDependency Status](
+https://david-dm.org/lucianonooijen/frontend-challenge/dev-status.svg)](https://david-dm.org/lucianonooijen/frontend-challenge#info=devDependencies)
+
+
 <h3>Welcome to the Stager frontend dev challenge!</h3>
 
 The goal is to finish an app which visualizes event organizer ticket sales over a period of time.
