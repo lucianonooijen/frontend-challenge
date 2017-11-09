@@ -88,6 +88,7 @@ var AppComponent = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_home_home_component__ = __webpack_require__("../../../../../src/app/components/home/home.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__services_data_service__ = __webpack_require__("../../../../../src/app/services/data.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__components_organizers_organizers_component__ = __webpack_require__("../../../../../src/app/components/organizers/organizers.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__components_sales_sales_component__ = __webpack_require__("../../../../../src/app/components/sales/sales.component.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -104,10 +105,12 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
+
 // Create routes
 var appRoutes = [
     { path: '', component: __WEBPACK_IMPORTED_MODULE_7__components_home_home_component__["a" /* HomeComponent */] },
-    { path: 'organizers', component: __WEBPACK_IMPORTED_MODULE_9__components_organizers_organizers_component__["a" /* OrganizersComponent */] }
+    { path: 'organizers', component: __WEBPACK_IMPORTED_MODULE_9__components_organizers_organizers_component__["a" /* OrganizersComponent */] },
+    { path: 'sales', component: __WEBPACK_IMPORTED_MODULE_10__components_sales_sales_component__["a" /* SalesComponent */] }
 ];
 var AppModule = (function () {
     function AppModule() {
@@ -119,7 +122,8 @@ var AppModule = (function () {
                 __WEBPACK_IMPORTED_MODULE_5__components_navbar_navbar_component__["a" /* NavbarComponent */],
                 __WEBPACK_IMPORTED_MODULE_6__components_footer_footer_component__["a" /* FooterComponent */],
                 __WEBPACK_IMPORTED_MODULE_7__components_home_home_component__["a" /* HomeComponent */],
-                __WEBPACK_IMPORTED_MODULE_9__components_organizers_organizers_component__["a" /* OrganizersComponent */]
+                __WEBPACK_IMPORTED_MODULE_9__components_organizers_organizers_component__["a" /* OrganizersComponent */],
+                __WEBPACK_IMPORTED_MODULE_10__components_sales_sales_component__["a" /* SalesComponent */]
             ],
             imports: [
                 __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["a" /* BrowserModule */],
@@ -406,6 +410,84 @@ var OrganizersComponent = (function () {
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__services_data_service__["a" /* DataService */]])
     ], OrganizersComponent);
     return OrganizersComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "../../../../../src/app/components/sales/sales.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<select #selectedOrganizer>\n  <option *ngFor=\"let organizer of organizers\" [value]=\"organizer.id\">{{ organizer.name }}</option>\n</select>\n<button (click)=\"sortSales(selectedOrganizer.value)\">Submit</button>"
+
+/***/ }),
+
+/***/ "../../../../../src/app/components/sales/sales.component.scss":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ "../../../../../src/app/components/sales/sales.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SalesComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_data_service__ = __webpack_require__("../../../../../src/app/services/data.service.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+var SalesComponent = (function () {
+    function SalesComponent(dataService) {
+        var _this = this;
+        this.dataService = dataService;
+        this.dataService.getOrganizers().subscribe(function (organizers) {
+            _this.organizers = organizers;
+            //console.log(this.organizers);
+        });
+        this.dataService.getSales().subscribe(function (sales) {
+            _this.sales = sales;
+            //console.log(this.sales);
+        });
+    }
+    SalesComponent.prototype.sortSales = function (organizer) {
+        console.log(organizer);
+    };
+    SalesComponent.prototype.ngOnInit = function () {
+    };
+    SalesComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
+            selector: 'app-sales',
+            template: __webpack_require__("../../../../../src/app/components/sales/sales.component.html"),
+            styles: [__webpack_require__("../../../../../src/app/components/sales/sales.component.scss")],
+            encapsulation: __WEBPACK_IMPORTED_MODULE_0__angular_core__["_9" /* ViewEncapsulation */].None
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__services_data_service__["a" /* DataService */]])
+    ], SalesComponent);
+    return SalesComponent;
 }());
 
 

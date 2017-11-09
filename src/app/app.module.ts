@@ -10,11 +10,13 @@ import { HomeComponent } from './components/home/home.component';
 
 import { DataService } from './services/data.service';
 import { OrganizersComponent } from './components/organizers/organizers.component';
+import { SalesComponent } from './components/sales/sales.component';
 
 // Create routes
 const appRoutes:Routes = [
   {path:'', component: HomeComponent},
-  {path:'organizers', component: OrganizersComponent}
+  {path:'organizers', component: OrganizersComponent},
+  {path:'sales', component: SalesComponent}
 ];
 
 @NgModule({
@@ -23,7 +25,8 @@ const appRoutes:Routes = [
     NavbarComponent,
     FooterComponent,
     HomeComponent,
-    OrganizersComponent
+    OrganizersComponent,
+    SalesComponent
   ],
   imports: [
     BrowserModule,

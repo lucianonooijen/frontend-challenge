@@ -1,0 +1,4 @@
+<select #selectedOrganizer>
+  <option *ngFor="let organizer of organizers" [value]="organizer.id">{{ organizer.name }}</option>
+</select>
+<button (click)="sortSales(selectedOrganizer.value)">Submit</button>
