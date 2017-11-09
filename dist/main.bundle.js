@@ -419,7 +419,7 @@ var OrganizersComponent = (function () {
 /***/ "../../../../../src/app/components/sales/sales.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"alert alert-danger animated fadeIn\" *ngFor=\"let inputError of inputErrors\">{{ inputError }}</div>\n\n<div class=\"row animated fadeIn\">\n    <div class=\"col-md-6\">\n        <h1 class=\"mb-3 text-center\">Search event sales</h1>\n\n        <div class=\"form-group\">\n            <label for=\"organizers\">Select organizer:</label>\n            <select class=\"form-control\" id=\"organizers\" #selectedOrganizer>\n                <option value=\"\">Any</option>\n              <option *ngFor=\"let organizer of organizers\" [value]=\"organizer.id\">{{ organizer.name }}</option>\n            </select>\n        </div>\n        \n        <div class=\"form-group\">\n            <label for=\"year\">Select year:</label>\n            <select class=\"form-control\" id=\"year\" #selectedYear>\n                <option value=\"\">Any</option>\n                <option value=\"2013\">2013</option>\n                <option value=\"2014\">2014</option>\n                <option value=\"2015\">2015</option>\n                <option value=\"2016\">2016</option>\n                <option value=\"2017\">2017</option>\n            </select>\n        </div>\n        \n        <div class=\"form-group\">\n            <label for=\"week\">Select week:</label>\n            <select class=\"form-control\" id=\"week\" #selectedWeek>\n                <option value=\"\">Any</option>\n                <option *ngFor=\"let week of weeks; let index = index\" [value]=\"index\">Week {{ index }}</option>\n            </select>\n        </div>\n \n        <button class = \"btn btn-stager\"(click)=\"sortSales(selectedOrganizer.value, selectedYear.value, selectedWeek.value)\">Show event sales</button>\n    </div>\n\n    <div class=\"col-md-6\">\n        <h1 class=\"text-center mb-3\">Statistics</h1>\n        <div *ngIf=\"!statistics\" class=\"text-center\">Hey, there's nothing to see here!</div>\n        <div *ngIf=\"statistics\" class=\"text-center\">Hey, there's something to see here!</div>\n    </div>\n\n</div>\n<br /> <br />\n\n<h1 *ngIf=\"sortedSales\" class=\"text-center mb-5 animated fadeIn\">Events</h1>\n<div class=\"row animated fadeIn\">\n    <div *ngFor=\"let sortedSale of sortedSales\" class=\"col-md-4 mb-3\">\n        <div class=\"card animated fadeIn\">\n            <div class=\"card-body\">\n                <h4 class=\"card-title\">Organization ID: {{ sortedSale.organization }}</h4>\n                <div class=\"card-text\">Year: {{ sortedSale.year }}</div>\n                <div class=\"card-text\">Week: {{ sortedSale.week }}</div>\n                <div class=\"card-text\"><b>Tickets: {{ sortedSale.tickets }}</b></div>\n            </div>\n        </div>\n    </div>\n</div>"
+module.exports = "<div class=\"alert alert-danger animated fadeIn\" *ngFor=\"let inputError of inputErrors\">{{ inputError }}</div>\n\n<div class=\"row animated fadeIn\">\n    <div class=\"col-md-6\">\n        <h1 class=\"mb-3 text-center\">Search event sales</h1>\n\n        <div class=\"form-group\">\n            <label for=\"organizers\">Select organizer:</label>\n            <select class=\"form-control\" id=\"organizers\" #selectedOrganizer>\n                <option value=\"\">Any</option>\n              <option *ngFor=\"let organizer of organizers\" [value]=\"organizer.id\">{{ organizer.name }}</option>\n            </select>\n        </div>\n        \n        <div class=\"form-group\">\n            <label for=\"year\">Select year:</label>\n            <select class=\"form-control\" id=\"year\" #selectedYear>\n                <option value=\"\">Any</option>\n                <option value=\"2013\">2013</option>\n                <option value=\"2014\">2014</option>\n                <option value=\"2015\">2015</option>\n                <option value=\"2016\">2016</option>\n                <option value=\"2017\">2017</option>\n            </select>\n        </div>\n        \n        <div class=\"form-group\">\n            <label for=\"week\">Select week:</label>\n            <select class=\"form-control\" id=\"week\" #selectedWeek>\n                <option value=\"\">Any</option>\n                <option *ngFor=\"let week of weeks; let index = index\" [value]=\"index\">Week {{ index }}</option>\n            </select>\n        </div>\n \n        <button class=\"btn btn-stager mb-5\"(click)=\"sortSales(selectedOrganizer.value, selectedYear.value, selectedWeek.value)\">Show event sales</button>\n    </div>\n\n    <div class=\"col-md-6\">\n        <h1 class=\"text-center mb-3\">Statistics</h1>\n        <div *ngIf=\"!statistics\" class=\"text-center mt-5\">Hey, there's nothing to see here!</div>\n        <div *ngIf=\"statistics\" class=\"text-center\">\n            <div class=\"progress\">\n                <div class=\"progress-bar\" role=\"progressbar\" [style.width]=\"ticketsPercentage+'%'\" aria-valuenow=\"25\" aria-valuemin=\"0\" aria-valuemax=\"100\"><span *ngIf=\"ticketsPercentage != 0\">{{ ticketsPercentage }}%</span></div>\n            </div>\n            <h1 class=\"mt-3\">{{ ticketsSold }} <span class=\"tickets-expected\">/ {{ ticketsExpected }}</span></h1>\n        </div>\n    </div>\n</div>\n<br /> <br />\n\n<h1 *ngIf=\"sortedSales\" class=\"text-center mb-5 animated fadeIn\">Events (per week)</h1>\n<div class=\"row animated fadeIn\">\n    <div *ngFor=\"let sortedSale of sortedSales\" class=\"col-md-4 mb-3\">\n        <div class=\"card animated fadeIn\">\n            <div class=\"card-body\">\n                <h4 class=\"card-title\">Name: {{ organizers[sortedSale.organization-1].name }}</h4>\n                <div class=\"card-text\">Organization ID: {{ sortedSale.organization }}</div>\n                <div class=\"card-text\">Year: {{ sortedSale.year }}</div>\n                <div class=\"card-text\">Week: {{ sortedSale.week }}</div>\n                <div class=\"card-text\"><b>Tickets: {{ sortedSale.tickets }}</b></div>\n            </div>\n        </div>\n    </div>\n</div>"
 
 /***/ }),
 
@@ -448,6 +448,18 @@ module.exports = module.exports.toString();
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SalesComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_data_service__ = __webpack_require__("../../../../../src/app/services/data.service.ts");
+/**
+ * Quick note:
+ * All calculations below are based on all organizers
+ * starting in the same year. There are no methods (yet)
+ * implemented to get a more accurate expected ticket
+ * total in a way that the total expected tickets sold
+ * is equal to the sum of expected tickets per year
+ * per organizer times the amount of years per organizer.
+ * It is possible to implement this, but then the user
+ * experience would not be optimal as it will take quite
+ * some more computing power.
+ */
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -465,6 +477,25 @@ var SalesComponent = (function () {
         var _this = this;
         this.dataService = dataService;
         this.weeks = new Array(52);
+        this.statistics = false;
+        this.ticketsExpected = 0;
+        this.ticketsSold = 0;
+        this.ticketsPercentage = 0;
+        this.getYears = function (sales) {
+            var lowest = Number.MAX_SAFE_INTEGER;
+            var highest = Number.MIN_SAFE_INTEGER;
+            var delta = 0;
+            for (var i = 0; i < sales.length; i++) {
+                if (sales[i].year < lowest)
+                    lowest = sales[i].year;
+                if (sales[i].year > highest)
+                    highest = sales[i].year;
+                console.log(highest + " - " + lowest + " = " + (highest - lowest));
+            }
+            delta = highest - lowest + 1;
+            console.log("Delta: " + (highest - lowest + 1));
+            return delta;
+        };
         this.dataService.getOrganizers().subscribe(function (organizers) {
             _this.organizers = organizers;
             //console.log(this.organizers);
@@ -476,10 +507,10 @@ var SalesComponent = (function () {
     }
     SalesComponent.prototype.sortSales = function (organizer, year, week) {
         var _this = this;
-        console.log(organizer, year, week);
+        //console.log(organizer, year, week)
         if (((year || week) && !organizer) || (week && !year)) {
             this.inputErrors = [];
-            this.statistics = {};
+            this.statistics = false;
             if ((year || week) && !organizer) {
                 this.inputErrors.push("You can only select a year and week if you also select an organizer");
             }
@@ -489,10 +520,29 @@ var SalesComponent = (function () {
         }
         else {
             this.inputErrors = [];
-            this.statistics = { "test": "test" };
+            this.statistics = true;
             this.dataService.getSalesSorted(organizer, year, week).subscribe(function (sortedSales) {
                 _this.sortedSales = sortedSales;
                 console.log(_this.sortedSales);
+                if (organizer) {
+                    _this.ticketsExpected = _this.organizers[organizer - 1].expectedYearTotal;
+                }
+                else {
+                    _this.ticketsExpected = 0;
+                    for (var i = 0; i < _this.organizers.length; i++) {
+                        _this.ticketsExpected += _this.organizers[i].expectedYearTotal;
+                    }
+                }
+                if (!year)
+                    _this.ticketsExpected = Math.ceil(_this.ticketsExpected * _this.getYears(sortedSales));
+                if (week)
+                    _this.ticketsExpected = Math.ceil(_this.ticketsExpected / 52);
+                //console.log(this.getYears(sortedSales));
+                _this.ticketsSold = 0;
+                for (var i = 0; i < _this.sortedSales.length; i++) {
+                    _this.ticketsSold += _this.sortedSales[i].tickets;
+                }
+                _this.ticketsPercentage = Math.floor(_this.ticketsSold / _this.ticketsExpected * 100);
             });
         }
     };
