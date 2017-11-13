@@ -12,12 +12,14 @@ import { HomeComponent } from './components/home/home.component';
 import { DataService } from './services/data.service';
 import { OrganizersComponent } from './components/organizers/organizers.component';
 import { SalesComponent } from './components/sales/sales.component';
+import { GraphsComponent } from './components/graphs/graphs.component';
 
 // Create routes
 const appRoutes:Routes = [
   {path:'', component: HomeComponent},
   {path:'organizers', component: OrganizersComponent},
-  {path:'sales', component: SalesComponent}
+  {path:'sales', component: SalesComponent},
+  {path:'graphs', component: GraphsComponent}
 ];
 
 @NgModule({
@@ -27,7 +29,8 @@ const appRoutes:Routes = [
     FooterComponent,
     HomeComponent,
     OrganizersComponent,
-    SalesComponent
+    SalesComponent,
+    GraphsComponent
   ],
   imports: [
     BrowserModule,
