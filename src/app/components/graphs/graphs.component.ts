@@ -53,7 +53,7 @@ graphData:any[] = new Array();
               salesTotalYear += salesTotal[j].tickets;
             }
             catch (err) {
-              console.log(`Error: ${err}`)
+              //console.log(`Error: ${err}`)
             }
           }
 
@@ -72,6 +72,7 @@ graphData:any[] = new Array();
   }
 
   ngOnInit() {
+    //this.getGraphs(2017);
   }
 
 }
