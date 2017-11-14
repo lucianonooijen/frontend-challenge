@@ -84,7 +84,7 @@ export class SalesComponent implements OnInit {
 
       this.dataService.getSalesSorted(organizer, year, week).subscribe(sortedSales => {
         this.sortedSales = sortedSales;
-        console.log(this.sortedSales);
+        //console.log(this.sortedSales);
 
         if (organizer){
           this.ticketsExpected = this.organizers[organizer-1].expectedYearTotal;

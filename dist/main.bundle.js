@@ -209,7 +209,7 @@ var FooterComponent = (function () {
 /***/ "../../../../../src/app/components/graphs/graphs.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<p>\n  graphs works!\n</p>\n"
+module.exports = "<div class=\"container\"> \n  <h1 class=\"text-center mb-3\">Graphs</h1>\n\n  <div class=\"alert alert-danger animated fadeIn\" *ngFor=\"let inputError of inputErrors\">{{ inputError }}</div>\n\n  <div class=\"form-group col-md-4 m-auto\">\n    <label for=\"year\">Select year:</label>\n    <select class=\"form-control\" id=\"year\" #selectedYear>\n        <option value=\"\">Any</option>\n        <option value=\"2013\">2013</option>\n        <option value=\"2014\">2014</option>\n        <option value=\"2015\">2015</option>\n        <option value=\"2016\">2016</option>\n        <option value=\"2017\">2017</option>\n    </select>\n  </div>\n\n  <div class=\"form-group col-md-4 m-auto\">\n      <label for=\"week\">Select week:</label>\n      <select class=\"form-control\" id=\"week\" #selectedWeek>\n          <option value=\"\">Any</option>\n          <option *ngFor=\"let week of weeks; let index = index\" [value]=\"index\">Week {{ index }}</option>\n      </select>\n\n      <button class=\"btn btn-stager mb-5 mt-4\" (click)=\"getGraphs(selectedYear.value, selectedWeek.value)\">Show event sales</button>\n  </div>\n  \n  \n  <div *ngIf=\"!graphData\" class=\"text-center mt-5 animated fadeIn\">Hey, there's nothing to see here!</div>\n  \n  \n  <div *ngIf=\"graphData\" class=\"text-center animated fadeIn\">\n    <div *ngFor=\"let data of graphData\">\n      <h3>Organizer: {{ data.organizer }}</h3>\n      <div class=\"progress\">\n          <div class=\"progress-bar\" role=\"progressbar\" [style.width]=\"data.percentage+'%'\" aria-valuenow=\"25\" aria-valuemin=\"0\" aria-valuemax=\"100\">\n            <span *ngIf=\"ticketsPercentage != 0\">{{ data.percentage }}%</span>\n          </div>\n      </div>\n      <h1 class=\"mt-3\">{{ data.sales }} <span class=\"tickets-expected\">/ {{ data.expectedSales }}</span></h1>\n    </div>\n  </div>\n\n</div>"
 
 /***/ }),
 
@@ -237,6 +237,18 @@ module.exports = module.exports.toString();
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return GraphsComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__sales_sales_component__ = __webpack_require__("../../../../../src/app/components/sales/sales.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__services_data_service__ = __webpack_require__("../../../../../src/app/services/data.service.ts");
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -247,9 +259,67 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
-var GraphsComponent = (function () {
-    function GraphsComponent() {
+
+
+var GraphsComponent = (function (_super) {
+    __extends(GraphsComponent, _super);
+    function GraphsComponent(dataService) {
+        var _this = _super.call(this, dataService) || this;
+        _this.dataService = dataService;
+        _this.graphData = new Array();
+        return _this;
     }
+    GraphsComponent.prototype.getGraphs = function (year, week) {
+        var _this = this;
+        this.graphData = [];
+        var _loop_1 = function (i) {
+            var addData = new Array();
+            var salesTotal = void 0;
+            if (week) {
+                this_1.sortSales(i, year, week);
+                this_1.dataService.getSalesSorted(i + 1, year, week).subscribe(function (salesTotal) {
+                    salesTotal = salesTotal;
+                    console.log(salesTotal[0].tickets);
+                    addData = {
+                        "organizer": _this.organizers[i].name,
+                        "expectedSales": (Math.ceil(_this.organizers[i].expectedYearTotal / 52)),
+                        "sales": salesTotal[0].tickets,
+                        "percentage": (Math.floor(_this.ticketsSold / (_this.organizers[i].expectedYearTotal / 52) * 100))
+                    };
+                    console.log("This is [" + i + "], so the sales are: " + salesTotal[0].tickets);
+                    console.log("Add data sales: " + addData.sales);
+                    console.log("sales data: " + _this.graphData);
+                    _this.graphData.push(addData);
+                });
+            }
+            else {
+                var salesTotalYear_1 = 0;
+                this_1.sortSales(i, year);
+                this_1.dataService.getSalesSorted(i + 1, year).subscribe(function (salesTotal) {
+                    salesTotal = salesTotal;
+                    for (var j = 0; j < 52; j++) {
+                        try {
+                            salesTotalYear_1 += salesTotal[j].tickets;
+                        }
+                        catch (err) {
+                            console.log("Error: " + err);
+                        }
+                    }
+                    addData = {
+                        "organizer": _this.organizers[i].name,
+                        "expectedSales": (Math.ceil(_this.organizers[i].expectedYearTotal)),
+                        "sales": salesTotalYear_1,
+                        "percentage": (Math.floor(salesTotalYear_1 / _this.organizers[i].expectedYearTotal * 100))
+                    };
+                    _this.graphData.push(addData);
+                });
+            }
+        };
+        var this_1 = this;
+        for (var i = 0; i < this.organizers.length; i++) {
+            _loop_1(i);
+        }
+    };
     GraphsComponent.prototype.ngOnInit = function () {
     };
     GraphsComponent = __decorate([
@@ -259,10 +329,10 @@ var GraphsComponent = (function () {
             styles: [__webpack_require__("../../../../../src/app/components/graphs/graphs.component.scss")],
             encapsulation: __WEBPACK_IMPORTED_MODULE_0__angular_core__["_9" /* ViewEncapsulation */].None
         }),
-        __metadata("design:paramtypes", [])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__services_data_service__["a" /* DataService */]])
     ], GraphsComponent);
     return GraphsComponent;
-}());
+}(__WEBPACK_IMPORTED_MODULE_1__sales_sales_component__["a" /* SalesComponent */]));
 
 
 
@@ -485,7 +555,7 @@ var OrganizersComponent = (function () {
 /***/ "../../../../../src/app/components/sales/sales.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"alert alert-danger animated fadeIn\" *ngFor=\"let inputError of inputErrors\">{{ inputError }}</div>\n\n<div class=\"row animated fadeIn\">\n    <div class=\"col-md-6\">\n        <h1 class=\"mb-3 text-center\">Search event sales</h1>\n\n        <div class=\"form-group\">\n            <label for=\"organizers\">Select organizer:</label>\n            <select class=\"form-control\" id=\"organizers\" #selectedOrganizer>\n                <option value=\"\">Any</option>\n              <option *ngFor=\"let organizer of organizers\" [value]=\"organizer.id\">{{ organizer.name }}</option>\n            </select>\n        </div>\n        \n        <div class=\"form-group\">\n            <label for=\"year\">Select year:</label>\n            <select class=\"form-control\" id=\"year\" #selectedYear>\n                <option value=\"\">Any</option>\n                <option value=\"2013\">2013</option>\n                <option value=\"2014\">2014</option>\n                <option value=\"2015\">2015</option>\n                <option value=\"2016\">2016</option>\n                <option value=\"2017\">2017</option>\n            </select>\n        </div>\n        \n        <div class=\"form-group\">\n            <label for=\"week\">Select week:</label>\n            <select class=\"form-control\" id=\"week\" #selectedWeek>\n                <option value=\"\">Any</option>\n                <option *ngFor=\"let week of weeks; let index = index\" [value]=\"index\">Week {{ index }}</option>\n            </select>\n        </div>\n \n        <button class=\"btn btn-stager mb-5\"(click)=\"sortSales(selectedOrganizer.value, selectedYear.value, selectedWeek.value)\">Show event sales</button>\n    </div>\n\n    <div class=\"col-md-6\">\n        <h1 class=\"text-center mb-3\">Statistics</h1>\n        <div *ngIf=\"!statistics\" class=\"text-center mt-5 animated fadeIn\">Hey, there's nothing to see here!</div>\n        <div *ngIf=\"statistics\" class=\"text-center animated fadeIn\">\n            <div class=\"progress\">\n                <div class=\"progress-bar\" role=\"progressbar\" [style.width]=\"ticketsPercentage+'%'\" aria-valuenow=\"25\" aria-valuemin=\"0\" aria-valuemax=\"100\"><span *ngIf=\"ticketsPercentage != 0\">{{ ticketsPercentage }}%</span></div>\n            </div>\n            <h1 class=\"mt-3\">{{ ticketsSold }} <span class=\"tickets-expected\">/ {{ ticketsExpected }}</span></h1>\n        </div>\n        <p class=\"mt-4\">That's all fun and games, but just give me some <a href=\"#\" routerLink=\"graphs\">nice graphs</a>.</p>\n    </div>\n</div>\n<br /> <br />\n\n<h1 *ngIf=\"sortedSales\" class=\"text-center mb-5 animated fadeIn\">Events (per week)</h1>\n<div class=\"row animated fadeIn\">\n    <div *ngFor=\"let sortedSale of sortedSales\" class=\"col-md-4 mb-3\">\n        <div class=\"card animated fadeIn\">\n            <div class=\"card-body\">\n                <h4 class=\"card-title\">Name: {{ organizers[sortedSale.organization-1].name }}</h4>\n                <div class=\"card-text\">Organization ID: {{ sortedSale.organization }}</div>\n                <div class=\"card-text\">Year: {{ sortedSale.year }}</div>\n                <div class=\"card-text\">Week: {{ sortedSale.week }}</div>\n                <div class=\"card-text\"><b>Tickets: {{ sortedSale.tickets }}</b></div>\n            </div>\n        </div>\n    </div>\n</div>"
+module.exports = "<div class=\"alert alert-danger animated fadeIn\" *ngFor=\"let inputError of inputErrors\">{{ inputError }}</div>\n\n<div class=\"row animated fadeIn\">\n    <div class=\"col-md-6\">\n        <h1 class=\"mb-3 text-center\">Search event sales</h1>\n\n        <div class=\"form-group\">\n            <label for=\"organizers\">Select organizer:</label>\n            <select class=\"form-control\" id=\"organizers\" #selectedOrganizer>\n                <option value=\"\">Any</option>\n              <option *ngFor=\"let organizer of organizers\" [value]=\"organizer.id\">{{ organizer.name }}</option>\n            </select>\n        </div>\n        \n        <div class=\"form-group\">\n            <label for=\"year\">Select year:</label>\n            <select class=\"form-control\" id=\"year\" #selectedYear>\n                <option value=\"\">Any</option>\n                <option value=\"2013\">2013</option>\n                <option value=\"2014\">2014</option>\n                <option value=\"2015\">2015</option>\n                <option value=\"2016\">2016</option>\n                <option value=\"2017\">2017</option>\n            </select>\n        </div>\n        \n        <div class=\"form-group\">\n            <label for=\"week\">Select week:</label>\n            <select class=\"form-control\" id=\"week\" #selectedWeek>\n                <option value=\"\">Any</option>\n                <option *ngFor=\"let week of weeks; let index = index\" [value]=\"index\">Week {{ index }}</option>\n            </select>\n        </div>\n \n        <button class=\"btn btn-stager mb-5\"(click)=\"sortSales(selectedOrganizer.value, selectedYear.value, selectedWeek.value)\">Show event sales</button>\n    </div>\n\n    <div class=\"col-md-6\">\n        <h1 class=\"text-center mb-3\">Statistics</h1>\n        <div *ngIf=\"!statistics\" class=\"text-center mt-5 animated fadeIn\">Hey, there's nothing to see here!</div>\n        <div *ngIf=\"statistics\" class=\"text-center animated fadeIn\">\n            <div class=\"progress\">\n                <div class=\"progress-bar\" role=\"progressbar\" [style.width]=\"ticketsPercentage+'%'\" aria-valuenow=\"25\" aria-valuemin=\"0\" aria-valuemax=\"100\"><span *ngIf=\"ticketsPercentage != 0\">{{ ticketsPercentage }}%</span></div>\n            </div>\n            <h1 class=\"mt-3\">{{ ticketsSold }} <span class=\"tickets-expected\">/ {{ ticketsExpected }}</span></h1>\n        </div>\n        <p class=\"mt-4 text-center\">That's all fun and games, but just give me some <a href=\"#\" routerLink=\"/graphs\">nice graphs</a>.</p>\n    </div>\n</div>\n<br /> <br />\n\n<h1 *ngIf=\"sortedSales\" class=\"text-center mb-5 animated fadeIn\">Events (per week)</h1>\n<div class=\"row animated fadeIn\">\n    <div *ngFor=\"let sortedSale of sortedSales\" class=\"col-md-4 mb-3\">\n        <div class=\"card animated fadeIn\">\n            <div class=\"card-body\">\n                <h4 class=\"card-title\">Name: {{ organizers[sortedSale.organization-1].name }}</h4>\n                <div class=\"card-text\">Organization ID: {{ sortedSale.organization }}</div>\n                <div class=\"card-text\">Year: {{ sortedSale.year }}</div>\n                <div class=\"card-text\">Week: {{ sortedSale.week }}</div>\n                <div class=\"card-text\"><b>Tickets: {{ sortedSale.tickets }}</b></div>\n            </div>\n        </div>\n    </div>\n</div>"
 
 /***/ }),
 
@@ -589,7 +659,7 @@ var SalesComponent = (function () {
             this.statistics = true;
             this.dataService.getSalesSorted(organizer, year, week).subscribe(function (sortedSales) {
                 _this.sortedSales = sortedSales;
-                console.log(_this.sortedSales);
+                //console.log(this.sortedSales);
                 if (organizer) {
                     _this.ticketsExpected = _this.organizers[organizer - 1].expectedYearTotal;
                 }
